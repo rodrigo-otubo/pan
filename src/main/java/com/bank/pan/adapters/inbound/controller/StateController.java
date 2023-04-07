@@ -1,6 +1,7 @@
 package com.bank.pan.adapters.inbound.controller;
 
 import com.bank.pan.adapters.infra.dto.ClientDTO;
+import com.bank.pan.adapters.infra.dto.StateDTO;
 import com.bank.pan.application.port.inbound.StateServicePort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ public class StateController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> getAll(){
+    public ResponseEntity<List<StateDTO>> getAll(){
         var statesFound = this.stateServicePort.getAll();
-        return null;
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(statesFound.stream().map(state -> new StateDTO(state.getName())).collect(Collectors.toList()));
     }
 }

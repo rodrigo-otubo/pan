@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BrazilStateDTO {
+public class StateDTO {
 
     private String name;
 }
