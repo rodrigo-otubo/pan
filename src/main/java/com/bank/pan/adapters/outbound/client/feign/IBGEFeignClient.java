@@ -1,6 +1,6 @@
 package com.bank.pan.adapters.outbound.client.feign;
 
-import com.bank.pan.adapters.outbound.client.mapper.StateMapper;
+import com.bank.pan.adapters.outbound.client.mapper.DistrictMapper;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,8 @@ import java.util.List;
 public interface IBGEFeignClient {
 
     @GetMapping("/v1/localidades/estados/")
-    List<StateMapper> getAllStates();
+    List<DistrictMapper> getAllDistricts();
 
     @GetMapping("/v1/localidades/estados/{id}/municipios")
-    ResponseEntity<String> getCitiesByStateId(@PathVariable("id") Integer id);
+    ResponseEntity<String> getCitiesByDistrictId(@PathVariable("id") Integer id);
 }

@@ -15,4 +15,6 @@ public interface ClientPersistencePort {
     ClientEntity update(ClientEntity clientEntity);
 
     void delete(ClientEntity clientEntity);
+
+    ClientEntity getById(Integer id);
 }

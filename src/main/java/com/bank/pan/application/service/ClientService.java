@@ -49,4 +49,10 @@ public class ClientService implements ClientServicePort {
         var clientFound = this.clientPersistencePort.get(cpf);
         this.clientPersistencePort.delete(new ClientEntity(clientFound.getId()));
     }
+
+    @Override
+    public ClientDomain getById(Integer id) {
+        var clientFound = this.clientPersistencePort.getById(id);
+        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+    }
 }

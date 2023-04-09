@@ -1,5 +1,6 @@
 package com.bank.pan.adapters.outbound.persistence;
 
+import com.bank.pan.adapters.infra.error.exceptions.BadRequestException;
 import com.bank.pan.adapters.outbound.persistence.entity.ClientEntity;
 import com.bank.pan.adapters.outbound.persistence.repository.ClientRepository;
 import com.bank.pan.application.port.outbound.ClientPersistencePort;
@@ -23,8 +24,7 @@ public class H2ClientPersistence implements ClientPersistencePort {
 
     @Override
     public ClientEntity get(String cpf) {
-        //TODO fazer exceptions
-        return this.clientRepository.findByCpf(cpf).orElseThrow();
+        return this.clientRepository.findByCpf(cpf).orElseThrow(()-> new BadRequestException("Client Not Found"));
     }
 
     @Override
@@ -40,5 +40,10 @@ public class H2ClientPersistence implements ClientPersistencePort {
     @Override
     public void delete(ClientEntity clientEntity) {
         this.clientRepository.delete(clientEntity);
+    }
+
+    @Override
+    public ClientEntity getById(Integer id) {
+        return this.clientRepository.findById(id).orElseThrow(()-> new BadRequestException("Client Not Found"));
     }
 }

@@ -7,4 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CityMapper {
     @JsonProperty("nome")
     private String name;
+    @JsonProperty("id")
+    private String districtId;
 }

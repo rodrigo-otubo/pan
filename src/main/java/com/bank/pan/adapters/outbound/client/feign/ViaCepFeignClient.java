@@ -1,5 +1,6 @@
 package com.bank.pan.adapters.outbound.client.feign;
 
+import com.bank.pan.adapters.outbound.client.mapper.AddressMapper;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ViaCepFeignClient {
 
     @GetMapping("/{cep}/json")
-    String getAddressByZipCode(@PathVariable("cep") String cep);
+    AddressMapper getAddressByZipCode(@PathVariable("cep") String cep);
 }

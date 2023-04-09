@@ -29,4 +29,5 @@ public class ClientEntity {
     public ClientEntity(Integer id) {
         this.id = id;
     }
+
 }

@@ -16,4 +16,6 @@ public interface ClientServicePort {
     ClientDomain update(ClientDomain clientDomain);
 
     void delete(String cpf);
+
+    ClientDomain getById(Integer id);
 }

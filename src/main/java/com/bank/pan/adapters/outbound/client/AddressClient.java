@@ -3,7 +3,9 @@ package com.bank.pan.adapters.outbound.client;
 import com.bank.pan.adapters.infra.error.exceptions.FeignClientException;
 import com.bank.pan.adapters.outbound.client.feign.IBGEFeignClient;
 import com.bank.pan.adapters.outbound.client.feign.ViaCepFeignClient;
-import com.bank.pan.adapters.outbound.client.mapper.StateMapper;
+import com.bank.pan.adapters.outbound.client.mapper.AddressMapper;
+import com.bank.pan.adapters.outbound.client.mapper.DistrictMapper;
+import com.bank.pan.adapters.outbound.persistence.repository.AddressRepository;
 import com.bank.pan.application.port.outbound.AddressClientPort;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -15,44 +17,49 @@ import java.util.List;
 @Component
 public class AddressClient implements AddressClientPort {
 
+    private final AddressRepository addressRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressClient.class);
     private final ViaCepFeignClient viaCepFeignClient;
     private final IBGEFeignClient ibgeFeignClient;
 
-    public AddressClient(ViaCepFeignClient viaCepFeignClient, IBGEFeignClient ibgeFeignClient) {
+    public AddressClient(AddressRepository addressRepository, ViaCepFeignClient viaCepFeignClient, IBGEFeignClient ibgeFeignClient) {
+        this.addressRepository = addressRepository;
         this.viaCepFeignClient = viaCepFeignClient;
         this.ibgeFeignClient = ibgeFeignClient;
     }
 
     @Override
-    public void getAddressByZipCode(String zipCode) {
+    public AddressMapper getAddressByZipCode(String zipCode) {
+        AddressMapper addressMapper;
         try {
-            this.viaCepFeignClient.getAddressByZipCode(zipCode);
+            addressMapper = this.viaCepFeignClient.getAddressByZipCode(zipCode);
         } catch (FeignException e){
             LOGGER.error("Error at ViaCepFeignClient : " + e.getMessage());
             throw new FeignClientException("Error ViaCep Client");
         }
+        return addressMapper;
     }
 
     @Override
-    public List<StateMapper> getAllStates() {
-        List<StateMapper> states;
+    public List<DistrictMapper> getAllDistricts() {
+        List<DistrictMapper> districts;
         try {
-            states = this.ibgeFeignClient.getAllStates();
+            districts = this.ibgeFeignClient.getAllDistricts();
         } catch (FeignException e) {
-            LOGGER.error("Error at IBGEFeignClient in GET All States: " + e.getMessage());
-            throw new FeignClientException("Error at IBGE Client in get All States");
+            LOGGER.error("Error at IBGEFeignClient in GET All Districts: " + e.getMessage());
+            throw new FeignClientException("Error at IBGE Client in get All Districts");
         }
-        return states;
+        return districts;
     }
 
     @Override
-    public void getCitiesByStateId(Integer stateId) {
+    public void getCitiesByDistrictId(Integer districtId) {
         try {
-            this.ibgeFeignClient.getCitiesByStateId(stateId);
+            this.ibgeFeignClient.getCitiesByDistrictId(districtId);
         } catch (FeignException e){
-            LOGGER.error("Error at IBGE Client in GET Cities By State Id: " + e.getMessage());
-            throw new FeignClientException("Error at IBGE Client in get Cities By State Id");
+            LOGGER.error("Error at IBGE Client in GET Cities By District Id: " + e.getMessage());
+            throw new FeignClientException("Error at IBGE Client in get District By District Id");
         }
     }
+
 }

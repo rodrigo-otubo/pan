@@ -23,7 +23,8 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientDTO> save(@RequestBody ClientDTO clientDTO){
-        var clientSaved = this.clientServicePort.save(new ClientDomain(clientDTO.getName(), clientDTO.getCpf()));
+        var clientSaved = this.clientServicePort.save(
+                new ClientDomain(clientDTO.getName(), clientDTO.getCpf()));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ClientDTO(clientSaved.getId(), clientSaved.getName(), clientSaved.getCpf()));
