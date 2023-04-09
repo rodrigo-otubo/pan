@@ -1,6 +1,9 @@
 package com.bank.pan.application.domain;
 
 public enum BrazilStates {
+
+    SP("São Paulo"),
+    RJ("Rio de Janeiro"),
     AC("Acre"),
     AL("Alagoas"),
     AP("Amapá"),
@@ -19,13 +22,11 @@ public enum BrazilStates {
     PR("Paraná"),
     PE("Pernambuco"),
     PI("Piauí"),
-    RJ("Rio de Janeiro"),
     RN("Rio Grande do Norte"),
     RS("Rio Grande do Sul"),
     RO("Rondônia"),
     RR("Roraima"),
     SC("Santa Catarina"),
-    SP("São Paulo"),
     SE("Sergipe"),
     TO("Tocantins");
 

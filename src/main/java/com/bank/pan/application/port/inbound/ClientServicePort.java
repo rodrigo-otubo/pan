@@ -9,11 +9,11 @@ public interface ClientServicePort {
 
     ClientDomain save(ClientDomain clientDomain);
 
-    ClientDomain get(Integer id);
+    ClientDomain get(String cpf);
 
     List<ClientDomain> getAll();
 
     ClientDomain update(ClientDomain clientDomain);
 
-    void delete(Integer id);
+    void delete(String cpf);
 }

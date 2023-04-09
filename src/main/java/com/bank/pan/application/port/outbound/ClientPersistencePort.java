@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClientPersistencePort {
     ClientEntity save(ClientEntity clientEntity);
 
-    ClientEntity get(Integer id);
+    ClientEntity get(String cpf);
 
     List<ClientEntity> getAll();
 

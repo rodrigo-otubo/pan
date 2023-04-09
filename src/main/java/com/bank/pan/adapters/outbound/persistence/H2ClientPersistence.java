@@ -22,9 +22,9 @@ public class H2ClientPersistence implements ClientPersistencePort {
     }
 
     @Override
-    public ClientEntity get(Integer id) {
+    public ClientEntity get(String cpf) {
         //TODO fazer exceptions
-        return this.clientRepository.findById(id).orElseThrow();
+        return this.clientRepository.findByCpf(cpf).orElseThrow();
     }
 
     @Override

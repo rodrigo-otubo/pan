@@ -23,8 +23,8 @@ public class ClientService implements ClientServicePort {
     }
 
     @Override
-    public ClientDomain get(Integer id) {
-        var clientFound = this.clientPersistencePort.get(id);
+    public ClientDomain get(String cpf) {
+        var clientFound = this.clientPersistencePort.get(cpf);
         return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
     }
 
@@ -45,7 +45,8 @@ public class ClientService implements ClientServicePort {
     }
 
     @Override
-    public void delete(Integer id) {
-        this.clientPersistencePort.delete(new ClientEntity(id));
+    public void delete(String cpf) {
+        var clientFound = this.clientPersistencePort.get(cpf);
+        this.clientPersistencePort.delete(new ClientEntity(clientFound.getId()));
     }
 }

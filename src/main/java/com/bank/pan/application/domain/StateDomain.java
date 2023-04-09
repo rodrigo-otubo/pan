@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class State {
+public class StateDomain {
+    private Integer id;
     private String name;
 }

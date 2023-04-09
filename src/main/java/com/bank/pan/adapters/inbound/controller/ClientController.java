@@ -29,9 +29,9 @@ public class ClientController {
                 .body(new ClientDTO(clientSaved.getId(), clientSaved.getName(), clientSaved.getCpf()));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<ClientDTO> get(@PathVariable Integer id){
-        var clientFound = this.clientServicePort.get(id);
+    @GetMapping("{cpf}")
+    public ResponseEntity<ClientDTO> get(@PathVariable String cpf){
+        var clientFound = this.clientServicePort.get(cpf);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ClientDTO(clientFound.getId(), clientFound.getName(), clientFound.getCpf()));
@@ -53,15 +53,15 @@ public class ClientController {
 
     @PutMapping
     public ResponseEntity<ClientDTO> update(@RequestBody ClientDTO clientDTO){
-        var clientSaved = this.clientServicePort.update(new ClientDomain(clientDTO.getName()));
+        var clientSaved = this.clientServicePort.update(new ClientDomain(clientDTO.getId(), clientDTO.getName(), clientDTO.getCpf()) );
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ClientDTO(clientSaved.getId(), clientSaved.getName(), clientSaved.getCpf()));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id){
-        this.clientServicePort.delete(id);
+    @DeleteMapping("{cpf}")
+    public ResponseEntity<?> delete(@PathVariable String cpf){
+        this.clientServicePort.delete(cpf);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Client deleted successfully");
