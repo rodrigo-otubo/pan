@@ -1,7 +1,7 @@
 package com.bank.pan.application.port.outbound;
 
-import com.bank.pan.adapters.outbound.persistence.entity.AddressEntity;
+import com.bank.pan.application.domain.AddressDomain;
 
 public interface AddressPersistencePort {
-    AddressEntity save(AddressEntity address);
+    AddressDomain save(AddressDomain address);
 }

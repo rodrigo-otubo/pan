@@ -1,20 +1,19 @@
 package com.bank.pan.application.port.outbound;
 
-import com.bank.pan.adapters.outbound.persistence.entity.ClientEntity;
 import com.bank.pan.application.domain.ClientDomain;
 
 import java.util.List;
 
 public interface ClientPersistencePort {
-    ClientEntity save(ClientEntity clientEntity);
+    ClientDomain save(ClientDomain clientDomain);
 
-    ClientEntity get(String cpf);
+    ClientDomain get(String cpf);
 
-    List<ClientEntity> getAll();
+    List<ClientDomain> getAll();
 
-    ClientEntity update(ClientEntity clientEntity);
+    ClientDomain update(ClientDomain clientDomain);
 
-    void delete(ClientEntity clientEntity);
+    void delete(ClientDomain clientDomain);
 
-    ClientEntity getById(Integer id);
+    ClientDomain getById(Integer id);
 }

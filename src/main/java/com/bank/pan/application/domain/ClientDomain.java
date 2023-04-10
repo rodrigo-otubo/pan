@@ -20,4 +20,8 @@ public class ClientDomain {
     public ClientDomain(String name) {
         this.name = name;
     }
+
+    public ClientDomain(Integer id) {
+        this.id = id;
+    }
 }

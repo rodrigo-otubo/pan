@@ -19,4 +19,12 @@ public class AddressDTO {
     private String city;
     private String district;
     private Integer clientId;
+
+    public AddressDTO(String zipcode, String street, String neighborhood, String city, String district) {
+        this.zipcode = zipcode;
+        this.street = street;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.district = district;
+    }
 }

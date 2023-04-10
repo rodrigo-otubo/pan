@@ -1,12 +1,10 @@
 package com.bank.pan.application.service;
 
-import com.bank.pan.adapters.outbound.persistence.entity.ClientEntity;
 import com.bank.pan.application.domain.ClientDomain;
 import com.bank.pan.application.port.inbound.ClientServicePort;
 import com.bank.pan.application.port.outbound.ClientPersistencePort;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClientService implements ClientServicePort {
 
@@ -18,41 +16,32 @@ public class ClientService implements ClientServicePort {
 
     @Override
     public ClientDomain save(ClientDomain clientDomain) {
-        var clientSaved = this.clientPersistencePort.save(new ClientEntity(clientDomain.getName(), clientDomain.getCpf()));
-        return new ClientDomain(clientSaved.getId(), clientSaved.getName(), clientSaved.getCpf());
+        return this.clientPersistencePort.save(clientDomain);
     }
 
     @Override
     public ClientDomain get(String cpf) {
-        var clientFound = this.clientPersistencePort.get(cpf);
-        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+        return this.clientPersistencePort.get(cpf);
     }
 
     @Override
     public List<ClientDomain> getAll() {
-        var clientsFound = this.clientPersistencePort.getAll();
-
-        return clientsFound
-                .stream()
-                .map(client -> new ClientDomain(client.getId(), client.getName(), client.getCpf()))
-                .collect(Collectors.toList());
+        return this.clientPersistencePort.getAll();
     }
 
     @Override
     public ClientDomain update(ClientDomain clientDomain) {
-        var clientSaved = this.clientPersistencePort.update(new ClientEntity(clientDomain.getId(), clientDomain.getName(), clientDomain.getCpf()));
-        return new ClientDomain(clientSaved.getId(), clientSaved.getName(), clientDomain.getCpf());
+        return this.clientPersistencePort.update(clientDomain);
     }
 
     @Override
     public void delete(String cpf) {
         var clientFound = this.clientPersistencePort.get(cpf);
-        this.clientPersistencePort.delete(new ClientEntity(clientFound.getId()));
+        this.clientPersistencePort.delete(new ClientDomain(clientFound.getId()));
     }
 
     @Override
     public ClientDomain getById(Integer id) {
-        var clientFound = this.clientPersistencePort.getById(id);
-        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+        return this.clientPersistencePort.getById(id);
     }
 }

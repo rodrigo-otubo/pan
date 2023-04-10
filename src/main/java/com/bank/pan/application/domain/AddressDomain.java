@@ -28,4 +28,12 @@ public class AddressDomain {
         this.district = district;
         this.clientId = clientId;
     }
+
+    public AddressDomain(String zipcode, String street, String neighborhood, String city, String district) {
+        this.zipcode = zipcode;
+        this.street = street;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.district = district;
+    }
 }

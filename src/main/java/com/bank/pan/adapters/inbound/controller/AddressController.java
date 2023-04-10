@@ -1,8 +1,8 @@
 package com.bank.pan.adapters.inbound.controller;
 
 import com.bank.pan.adapters.infra.dto.AddressDTO;
-import com.bank.pan.adapters.outbound.client.mapper.AddressMapper;
-import com.bank.pan.adapters.outbound.client.mapper.DistrictMapper;
+import com.bank.pan.adapters.infra.dto.CityDTO;
+import com.bank.pan.adapters.infra.dto.DistrictDTO;
 import com.bank.pan.application.domain.AddressDomain;
 import com.bank.pan.application.port.inbound.AddressServicePort;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("v1/address")
@@ -21,26 +22,37 @@ public class AddressController {
         this.addressServicePort = addressServicePort;
     }
 
-    @GetMapping("{zipCode}")
-    public ResponseEntity<AddressMapper> getAdrressByZipCode(@PathVariable String zipCode) {
+    @GetMapping("/zipcode/{zipCode}")
+    public ResponseEntity<AddressDTO> getAdrressByZipCode(@PathVariable String zipCode) {
         var addressFound = this.addressServicePort.getAddressByZipCode(zipCode);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(addressFound);
+                .body(new AddressDTO(
+                        addressFound.getZipcode(),
+                        addressFound.getStreet(),
+                        addressFound.getNeighborhood(),
+                        addressFound.getCity(),
+                        addressFound.getDistrict()));
     }
 
     @GetMapping
-    public ResponseEntity<List<DistrictMapper>> getAllDistricts() {
+    public ResponseEntity<List<DistrictDTO>> getAllDistricts() {
         var districtsFound = this.addressServicePort.getAllDistricts();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(districtsFound);
+                .body(districtsFound
+                        .stream()
+                        .map( district -> new DistrictDTO(district.getId(), district.getName())).collect(Collectors.toList()));
     }
 
-    @GetMapping("{districtId}")
-    public ResponseEntity<?> getCitiesByDistrictId(@PathVariable Integer districtId) {
-        this.addressServicePort.getCitiesByDistrictId(districtId);
-        return null;
+    @GetMapping("/district/{districtId}")
+    public ResponseEntity<List<CityDTO>> getCitiesByDistrictId(@PathVariable Integer districtId) {
+        var citiesFound = this.addressServicePort.getCitiesByDistrictId(districtId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(citiesFound
+                        .stream()
+                        .map(city -> new CityDTO(city.getName(), city.getDistrictId())).collect(Collectors.toList()));
     }
 
     @PutMapping
