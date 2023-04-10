@@ -25,11 +25,6 @@ public class ClientService implements ClientServicePort {
     }
 
     @Override
-    public List<ClientDomain> getAll() {
-        return this.clientPersistencePort.getAll();
-    }
-
-    @Override
     public ClientDomain update(ClientDomain clientDomain) {
         return this.clientPersistencePort.update(clientDomain);
     }

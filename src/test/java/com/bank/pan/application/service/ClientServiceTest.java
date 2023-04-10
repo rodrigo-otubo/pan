@@ -66,19 +66,6 @@ public class ClientServiceTest {
     }
 
     @Test
-    void shouldReturnClients() {
-        var clientsMock = Arrays.asList(
-                new ClientDomain(1, "Rodrigo", "12345678901"),
-                new ClientDomain(2, "Kaike", "98765432198"));
-
-        when(this.client.getAll()).thenReturn(clientsMock);
-
-        var clientsFound = this.service.getAll();
-
-        assertEquals(2, clientsFound.size());
-    }
-
-    @Test
     void shouldUpdateClient() {
         var clientMock = new ClientDomain(1, "Rodrigo Otubo", "12345678901");
         var clientDomain = new ClientDomain("Rodrigo Otubo", "12345678901");

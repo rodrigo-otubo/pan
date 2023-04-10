@@ -11,8 +11,6 @@ public interface ClientServicePort {
 
     ClientDomain get(String cpf);
 
-    List<ClientDomain> getAll();
-
     ClientDomain update(ClientDomain clientDomain);
 
     void delete(String cpf);

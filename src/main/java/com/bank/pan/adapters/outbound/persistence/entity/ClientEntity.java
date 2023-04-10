@@ -21,6 +21,9 @@ public class ClientEntity {
     @Column(name = "cpf")
     private String cpf;
 
+    @OneToOne(mappedBy = "client", optional = true)
+    private AddressEntity address;
+
     public ClientEntity(String name, String cpf) {
         this.name = name;
         this.cpf = cpf;
@@ -28,6 +31,12 @@ public class ClientEntity {
 
     public ClientEntity(Integer id) {
         this.id = id;
+    }
+
+    public ClientEntity(Integer id, String name, String cpf) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
     }
 
 }

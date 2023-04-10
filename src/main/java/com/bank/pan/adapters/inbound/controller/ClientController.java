@@ -1,6 +1,7 @@
 package com.bank.pan.adapters.inbound.controller;
 
 
+import com.bank.pan.adapters.infra.dto.AddressDTO;
 import com.bank.pan.adapters.infra.dto.ClientDTO;
 import com.bank.pan.application.domain.ClientDomain;
 import com.bank.pan.application.port.inbound.ClientServicePort;
@@ -33,23 +34,19 @@ public class ClientController {
     @GetMapping("{cpf}")
     public ResponseEntity<ClientDTO> get(@PathVariable String cpf){
         var clientFound = this.clientServicePort.get(cpf);
+        if (clientFound.getAddressDomain() == null){
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new ClientDTO(clientFound.getId(), clientFound.getName(), clientFound.getCpf()));
+        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ClientDTO(clientFound.getId(), clientFound.getName(), clientFound.getCpf()));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ClientDTO>> getAll(){
-        var clientsFound = this.clientServicePort.getAll();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(clientsFound
-                        .stream()
-                        .map(company -> new ClientDTO(
-                                company.getId(),
-                                company.getName(),
-                                company.getCpf()))
-                        .collect(Collectors.toList()));
+                .body(new ClientDTO(clientFound.getId(), clientFound.getName(), clientFound.getCpf(),
+                        new AddressDTO(clientFound.getAddressDomain().getZipcode(),
+                                clientFound.getAddressDomain().getStreet(),
+                                clientFound.getAddressDomain().getNeighborhood(),
+                                clientFound.getAddressDomain().getCity(),
+                                clientFound.getAddressDomain().getDistrict())));
     }
 
     @PutMapping

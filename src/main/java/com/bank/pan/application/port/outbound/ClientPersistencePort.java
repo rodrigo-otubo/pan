@@ -9,8 +9,6 @@ public interface ClientPersistencePort {
 
     ClientDomain get(String cpf);
 
-    List<ClientDomain> getAll();
-
     ClientDomain update(ClientDomain clientDomain);
 
     void delete(ClientDomain clientDomain);

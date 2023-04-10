@@ -12,6 +12,8 @@ public class ClientDomain {
     private String name;
     private String cpf;
 
+    private AddressDomain addressDomain;
+
     public ClientDomain(String name, String cpf) {
         this.name = name;
         this.cpf = cpf;
@@ -23,5 +25,11 @@ public class ClientDomain {
 
     public ClientDomain(Integer id) {
         this.id = id;
+    }
+
+    public ClientDomain(Integer id, String name, String cpf) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
     }
 }

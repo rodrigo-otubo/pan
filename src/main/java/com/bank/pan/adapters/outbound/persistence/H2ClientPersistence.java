@@ -3,6 +3,7 @@ package com.bank.pan.adapters.outbound.persistence;
 import com.bank.pan.adapters.infra.error.exceptions.BadRequestException;
 import com.bank.pan.adapters.outbound.persistence.entity.ClientEntity;
 import com.bank.pan.adapters.outbound.persistence.repository.ClientRepository;
+import com.bank.pan.application.domain.AddressDomain;
 import com.bank.pan.application.domain.ClientDomain;
 import com.bank.pan.application.port.outbound.ClientPersistencePort;
 import org.springframework.stereotype.Component;
@@ -28,16 +29,19 @@ public class H2ClientPersistence implements ClientPersistencePort {
     @Override
     public ClientDomain get(String cpf) {
         var clientFound = this.clientRepository.findByCpf(cpf).orElseThrow(()-> new BadRequestException("Client Not Found"));
-        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
-    }
+        if (clientFound.getAddress() == null) {
+            return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+        }
+        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf(),
+                new AddressDomain(
+                        clientFound.getAddress().getZipcode(),
+                        clientFound.getAddress().getStreet(),
+                        clientFound.getAddress().getNumber(),
+                        clientFound.getAddress().getComplement(),
+                        clientFound.getAddress().getNeighborhood(),
+                        clientFound.getAddress().getCity(),
+                        clientFound.getAddress().getDistrict()));
 
-    @Override
-    public List<ClientDomain> getAll() {
-        var clientsFound = this.clientRepository.findAll();
-        return clientsFound
-                .stream()
-                .map(client -> new ClientDomain(client.getId(), client.getName(), client.getCpf()))
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -54,6 +58,17 @@ public class H2ClientPersistence implements ClientPersistencePort {
     @Override
     public ClientDomain getById(Integer id) {
         var clientFound =  this.clientRepository.findById(id).orElseThrow(()-> new BadRequestException("Client Not Found"));
-        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+        if (clientFound.getAddress() == null) {
+            return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf());
+        }
+        return new ClientDomain(clientFound.getId(), clientFound.getName(), clientFound.getCpf(),
+                new AddressDomain(
+                        clientFound.getAddress().getZipcode(),
+                        clientFound.getAddress().getStreet(),
+                        clientFound.getAddress().getNumber(),
+                        clientFound.getAddress().getComplement(),
+                        clientFound.getAddress().getNeighborhood(),
+                        clientFound.getAddress().getCity(),
+                        clientFound.getAddress().getDistrict()));
     }
 }
